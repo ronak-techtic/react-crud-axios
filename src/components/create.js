@@ -1,21 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Checkbox, Form } from 'semantic-ui-react';
+import axios from 'axios';
 
-const createForm = () => (
-  <Form className="create-form">
-    <Form.Field>
-      <label>First Name</label>
-      <input placeholder='First Name' />
-    </Form.Field>
-    <Form.Field>
-      <label>Last Name</label>
-      <input placeholder='Last Name' />
-    </Form.Field>
-    <Form.Field>
-      <Checkbox label='I agree to the Terms and Conditions' />
-    </Form.Field>
-    <Button type='submit'>Submit</Button>
-  </Form>
-)
+const CreateForm = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [checkbox, setCheckbox] = useState(false);
+const postData = () =>{
+        console.log('in postData');
+        console.log('fst',firstName,' lst ',lastName,' checkbox ',checkbox);
+        axios.post('https://630c327183986f74a7bb189a.mockapi.io/api/v1/crud-data/',{
+            firstName,
+            lastName,
+            checkbox
+        })
+    }
+return (
+    <Form className="create-form">
+        <Form.Field>
+        <label>First Name</label>
+        <input placeholder='First Name' onChange={(e)=>setFirstName(e.target.value)} />
+        </Form.Field>
+        <Form.Field>
+        <label>Last Name</label>
+        <input placeholder='Last Name' onChange={(e)=>setLastName(e.target.value)} />
+        </Form.Field>
+        <Form.Field>
+        <Checkbox label='I agree to the Terms and Conditions' onChange={(e)=>setCheckbox(!checkbox)} />
+        </Form.Field>
+        <Button onClick={postData} type='submit'>Submit</Button>
+    </Form>
+    )
+}
 
-export default createForm
+export default CreateForm
